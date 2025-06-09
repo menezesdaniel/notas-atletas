@@ -1,41 +1,4 @@
-//implementacao da classe
-class Jurados {
-  constructor(atletas) {
-    this.atletas = atletas;
-  }
-
- ordenaNotas() {
-    for (let i = 0; i < this.atletas.length; i++) {
-      this.atletas[i].origem = this.atletas[i].notas
-      
-      this.atletas[i].notas = this.atletas[i].notas
-        .sort((a, b) => a - b)
-        .slice(1, 4);
-    }
-  }
-
-  somaMediaNotas() {
-    let soma = 0;
-    for (let i = 0; i < this.atletas.length; i++) {
-      this.atletas[i].notas.forEach(function (nota) {
-        soma += nota;
-      });
-      this.atletas[i].media = soma / this.atletas[i].notas.length;
-      soma = 0;
-    }
-  }
-  
-   mostraNotas() {
-     for (let i = 0; i < this.atletas.length; i++) {
-       console.log(`Atleta: ${this.atletas[i].nome}\nNotas Obtidas: ${this.atletas[i].origem}\nMédia Válida: ${this.atletas[i].media}`);
-    }     
-  }
-}
-
-
-
-//dados utilizados
-let atletasDados = [
+let atletas = [
   {
     nome: "Cesar Abascal",
     notas: [10, 9.34, 8.42, 10, 7.88]
@@ -54,8 +17,30 @@ let atletasDados = [
   }
 ];
 
-let atletas = new Jurados(atletasDados);
+function calcularMediaAtletas(listaAtletas) {
+  for (let i = 0; i < listaAtletas.length; i++) {
+    let atleta = listaAtletas[i];
+    let notas = atleta.notas.slice(); // faz uma cópia para não modificar o original
 
-atletas.ordenaNotas();
-atletas.somaMediaNotas();
-atletas.mostraNotas();
+    // Ordenar notas
+    notas.sort((a, b) => a - b);
+
+    // Eliminar menor (index 0) e maior (último index)
+    let notasValidas = notas.slice(1, 4); // pega as três do meio
+
+    // Calcular média
+    let soma = 0;
+    notasValidas.forEach(nota => {
+      soma += nota;
+    });
+    let media = soma / notasValidas.length;
+
+    // Exibir resultado
+    console.log(`Atleta: ${atleta.nome}`);
+    console.log(`Notas Obtidas: ${atleta.notas.join(",")}`);
+    console.log(`Média Válida: ${media.toFixed(8)}\n`);
+  }
+}
+
+// Executa a função
+calcularMediaAtletas(atletas);
